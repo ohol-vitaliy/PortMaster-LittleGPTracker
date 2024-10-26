@@ -1,6 +1,7 @@
 ![Piggy](piggy.png)
 
-Dockerfile to easily build LittleGPTracker binary for PortMaster
+Dockerfile to easily build [LittleGPTracker](https://github.com/djdiskmachine/LittleGPTracker) binary 
+for [PortMaster](https://github.com/PortsMaster/PortMaster-New/tree/main/ports/littlegptracker)
 
 ### Run steps
 ```bash
