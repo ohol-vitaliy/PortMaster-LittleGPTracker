@@ -1,0 +1,34 @@
+-include $(PWD)/rules_base
+
+# config
+DEFINES := \
+	-DPLATFORM_$(PLATFORM) \
+	-D_64BIT \
+	-DBUFFERED \
+	-DCPP_MEMORY \
+	-DHAVE_STDINT_H \
+	-D_NDEBUG \
+	-D_NO_JACK_ \
+	-DSDL2 \
+        -DSDLAUDIO \
+        -DDUMMYMIDI
+
+CROSS_COMPILE:=/usr/bin/aarch64-linux-gnu-
+CC = $(CROSS_COMPILE)gcc
+CXX = $(CROSS_COMPILE)g++
+TOOLPATH=/usr/bin
+
+SYSROOT     := $(shell $(CROSS_COMPILE)gcc --print-sysroot)
+SDL_CFLAGS  := $(shell $(SYSROOT)/usr/bin/sdl2-config --cflags)
+SDL_LIBS    := $(shell $(SYSROOT)/usr/bin/sdl2-config --libs)
+
+OPT_FLAGS = -O3 -mlittle-endian -mabi=lp64 -march=armv8-a+crypto+crc -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -dumpbase
+INCLUDES = -Iinclude $(SDL_CFLAGS) -I/usr/include/ -I/usr/include/aarch64-linux-gnu/ -I/usr/include/aarch64-linux-gnu/c++/9/ -I$(PWD)/../sources
+CFLAGS	:= $(DEFINES) $(INCLUDES) $(OPT_FLAGS) -Wall  
+CXXFLAGS:= $(CFLAGS) -std=gnu++03 
+LIBS	:= $(SDL_LIBS) -lSDL2 -lSDL2_mixer -lpthread
+OUTPUT = ../lgpt-port
+EXTENSION:= elf
+
+%.elf: $(OFILES)
+	$(CXX) $(LDFLAGS) -o $@ $(OFILES) $(LIBS)
