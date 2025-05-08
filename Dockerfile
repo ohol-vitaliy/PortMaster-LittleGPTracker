@@ -7,7 +7,7 @@ RUN apt update \
 RUN ldconfig
 
 WORKDIR /root
-RUN git clone https://github.com/djdiskmachine/LittleGPTracker
+RUN git clone https://github.com/djdiskmachine/LittleGPTracker --branch 1.4.3-bacon5 --single-branch
 
 WORKDIR /root/LittleGPTracker/projects
 ADD Makefile.PORTMASTER .
